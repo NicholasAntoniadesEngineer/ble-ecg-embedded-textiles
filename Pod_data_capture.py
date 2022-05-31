@@ -45,8 +45,8 @@ DEVICE_1    = "48:23:35:00:36:1B" # 6-lead ECG device, old hardware
 DEVICE_2    = "48:23:35:00:36:3E" # 6-lead ECG device, old hardware
 DEVICE_3    = "CC:86:EC:65:E4:DC" # 3-lead, from Brain Beta v1.1, latest hardware
 DEVICE_4    = "00:3C:84:DD:2B:F6" # 3-lead, from Brain Beta v1.1, latest hardware
-OCTOPUS_ECG = "00:3c:84:dd:2c:01" # 3-lead, from Brain Beta v1.1, latest hardware
-device_old = OCTOPUS_ECG
+DEVICE_5    = "00:3c:84:dd:2c:01" # 3-lead, from Brain Beta v1.1, latest hardware
+device_old = DEVICE_5
 
 """
 Variables that may be changed start here
