@@ -15,8 +15,8 @@ TODO: Guide users through getting your code up and running on their own system. 
 # Build and Test
 TODO: Describe and show how to build your code and run the tests. 
 1. Optional changes to code
-- Change the device_new variable to the desired Pod ID.
--> Change TEST_NAME variable to the desired test name. 
+    - Change the device_new variable to the desired Pod ID.
+    - Change TEST_NAME variable to the desired test name. 
 2. Run from command line
 -> python3 ./Pod_data_capture.py 
 
