@@ -6,12 +6,17 @@ Using the pod from the Caterpillar Beta system to capture the ECG and IMU data a
 # Getting Started
 TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
 1.	Clone repository from git.
+    -> sudo git clone https://KYMIRARnD@dev.azure.com/KYMIRARnD/Garment%20Integration%20and%20Prototyping/_git/P01-ECG
 2.	Change file permissions
+    ->sudo chmod -R ugo+rw P01-ECG/
 3.	Install libraries
 
 
 # Build and Test
 TODO: Describe and show how to build your code and run the tests. 
 1. Optional changes to code
+   -> Change the device_new variable to the desired Pod ID.
+   -> Change TEST_NAME variable to the desired test name. 
 2. Run from command line
+   -> python3 ./Pod_data_capture.py 
 
