@@ -29,7 +29,6 @@ Using the pod from the Caterpillar Beta system to capture the ECG and IMU data a
     - Run sudo pip install -e ./
     - Open /P01-ECG/Signal Processing/ECG_data_processing_modules_gen1/modules/kymira_ecg
     - Run sudo pip install -e ./
-
 2. Run jupyter notebook
     - run 'jupyter notebook' in the command line
     - navigate to /P01-ECG/Signal Processing/ECG_data_processing_modules_gen1/notebook_projects/ecg_dq_dashboard
