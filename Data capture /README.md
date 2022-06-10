@@ -5,12 +5,17 @@ Using the pod from the Caterpillar Beta system to capture the ECG and IMU data a
 
 # Getting Started
 
-1.	Clone repository from git.
+1.  Connect the Raspberry Pi to the local network
+    - Start raspi-config with: sudo raspi-config.
+    - Go into System Options > Wireless LAN.
+    - Type your SSID and your password.
+    - Exit the tool. After a few seconds, your Pi is now connected to the wireless network you chose.
+2.  Clone repository from git.
     - sudo git clone https://KYMIRARnD@dev.azure.com/KYMIRARnD/Garment%20Integration%20and%20Prototyping/_git/P01-ECG
-2.	Change file permissions
+3.	Change file permissions
     - sudo chmod -R ugo+rw P01-ECG/
     - sudo chown -R protopi:root P01-ECG/
-3.	Install libraries
+4.	Install libraries
 
 
 # Build and Test

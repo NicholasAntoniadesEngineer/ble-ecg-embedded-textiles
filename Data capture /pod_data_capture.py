@@ -132,18 +132,18 @@ def initialise_CSV(ver_counter, f):
     writer = csv.writer(f)
 
     # Write header for file
-    file_Header=['Recorded using POD_Data_Capture.py']
+    file_Header=['# Recorded using POD_Data_Capture.py']
     writer.writerow(file_Header)
 
     # Write data/time
     time_stamp = datetime.datetime.now()
-    file_Header=['Recoreded on:   ' + str(time_stamp)]
+    file_Header=['# Recoreded on:   ' + str(time_stamp)]
     writer.writerow(file_Header)
 
     # Write device information
-    file_Header=['Device address: ' + DEVICE_NAME]
+    file_Header=['# Device address: ' + DEVICE_NAME]
     writer.writerow(file_Header)
-    file_Header=['Device ID: ' + selected_device]
+    file_Header=['# Device ID: ' + selected_device]
     writer.writerow(file_Header)
     file_Header=[]
     writer.writerow(file_Header)
