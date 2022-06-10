@@ -92,6 +92,7 @@ raw_IMU                  = np.array([[1]*SAMPLES_PER_CHANNEL_IMU]*NUM_CHANNEL_IM
 multi_axis_IMU           = np.array([[1]*SAMPLES_PER_CHANNEL_ECG]*NUM_CHANNEL_IMU,  dtype=float)
 data_to_write            = [0]*(NUM_CHANNEL_IMU + NUM_CHANNELS_ECG + 1)
 sampling_frequency_ECG   = 1/ECG_SAMPLING_PERIOD
+attempt_counter          = 0
 
 # Create array to hold timestamp for each sample
 rows_time_val, cols_time_val = (10, 1)
@@ -137,13 +138,13 @@ def initialise_CSV(ver_counter, f):
 
     # Write data/time
     time_stamp = datetime.datetime.now()
-    file_Header=['# Recoreded on:   ' + str(time_stamp)]
+    file_Header=['# Recoreded on:     ' + str(time_stamp)]
     writer.writerow(file_Header)
 
     # Write device information
-    file_Header=['# Device address: ' + DEVICE_NAME]
+    file_Header=['# Device address:   ' + DEVICE_NAME]
     writer.writerow(file_Header)
-    file_Header=['# Device ID: ' + selected_device]
+    file_Header=['# Device ID:        ' + selected_device]
     writer.writerow(file_Header)
     file_Header=[]
     writer.writerow(file_Header)
@@ -182,21 +183,26 @@ def bluetooth_connect():
     except Exception:
         print("Cannot connect to bluetooth device")
         print('')
+        attempt_counter = 0
         while True:
             # Attempt to connect to bluetooth device, loop until connected
             try:
                 bluetooth_data.sendline(connection_request)
                 bluetooth_data.expect("Connection successful", timeout=0.5)
                 print()
-                print("Connected!             ' '")
-                print("                      '---'")
+                print("Connected!")
+                print(" ' ' ")
+                print("'---'")
                 print()
                 break
             # If device cannot make a connection
             except Exception:
                 print()
-                print("Attempting to connect  . . ")
-                print("                      .---.")
+                print("Attempting to connect, attempt: ", attempt_counter)
+                print()
+                print(" ' ' ")
+                print(".---.")
+                attempt_counter = attempt_counter + 1
                 time.sleep(0.05)
     
 

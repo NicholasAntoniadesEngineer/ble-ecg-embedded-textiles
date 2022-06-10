@@ -38,5 +38,4 @@ Using the pod from the Caterpillar Beta system to capture the ECG and IMU data a
     - run 'jupyter notebook' in the command line
     - navigate to /P01-ECG/Signal Processing/ECG_data_processing_modules_gen1/notebook_projects/ecg_dq_dashboard
     - run kymira_ecg_dq.ipynb
-    - Change the location variable to that of the test to be plotted.
-    - ** before running and plotting ** clear the header generated in the .csv file as it will show a value error otherwise.  
+    - Change the location variable to that of the test to be plotted.show a value error otherwise.  
