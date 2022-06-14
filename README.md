@@ -3,6 +3,10 @@ The Caterpillar textile is required to measure ECG readings from electrodes plac
 
 Using the pod from the Caterpillar Beta system to capture the ECG and IMU data a Raspberrypi 4B was used to capture the data being sent over Bluetooth and store it.
 
+# Current Raspberry PI4 login details
+- Username: protopi
+- Password: kymira 
+
 # Getting Started
 
 1.  Connect the Raspberry Pi to the local network
@@ -39,3 +43,7 @@ Using the pod from the Caterpillar Beta system to capture the ECG and IMU data a
     - navigate to /P01-ECG/Signal Processing/ECG_data_processing_modules_gen1/notebook_projects/ecg_dq_dashboard
     - run kymira_ecg_dq.ipynb
     - Change the location variable to that of the test to be plotted.show a value error otherwise.  
+
+
+# The firmware running on the P01-ECG pos can be find in the P01-ECG-pod-firmware repository
+
