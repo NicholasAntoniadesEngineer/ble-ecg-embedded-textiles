@@ -365,6 +365,9 @@ def main():
                         data_to_write[12] = time_val[l]
                         # Write data to CSV file
                         writer.writerow(data_to_write)    
+                        
+                        # This may break everything
+                        # flush()
 
             else:
                 write_count = write_count + 1
