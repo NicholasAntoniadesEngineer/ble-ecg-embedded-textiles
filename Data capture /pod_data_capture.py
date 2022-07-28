@@ -22,7 +22,7 @@ import sys
 import numpy as np
 import os.path
 
-NUM_CHANNEL_IMU          = 9  # Ax.Ay,Ax,Gx,Gy,Gz,Mx.My,Mz
+NUM_CHANNEL_IMU          = 9  # Ax.Ay,Ax,Gx,Gy,Gz,Mx.My,Mz = 9
 SAMPLES_PER_CHANNEL_IMU  = 1 
 SAMPLES_PER_CHANNEL_ECG  = 10
 BYTES_PER_SAMPLE_ECG     = 3
@@ -96,7 +96,7 @@ single_sample_IMU        = [1]*total_samples_IMU
 converted_voltage_ECG    = np.array([[1]*SAMPLES_PER_CHANNEL_ECG]*NUM_CHANNELS_ECG, dtype=float) 
 raw_IMU                  = np.array([[1]*SAMPLES_PER_CHANNEL_IMU]*NUM_CHANNEL_IMU,  dtype=float) 
 multi_axis_IMU           = np.array([[1]*SAMPLES_PER_CHANNEL_ECG]*NUM_CHANNEL_IMU,  dtype=float)
-data_to_write            = [0]*(NUM_CHANNEL_IMU + NUM_CHANNELS_ECG + 2)
+data_to_write            = [0]*(NUM_CHANNEL_IMU + NUM_CHANNELS_ECG + 2)  # +2 for the time stamp and LOD
 sampling_frequency_ECG   = 1/ECG_SAMPLING_PERIOD
 attempt_counter          = 0
 
