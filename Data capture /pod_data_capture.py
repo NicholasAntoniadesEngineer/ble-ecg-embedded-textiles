@@ -22,7 +22,7 @@ import sys
 import numpy as np
 import os.path
 
-NUM_CHANNEL_IMU          = 10 
+NUM_CHANNEL_IMU          = 9  # Ax.Ay,Ax,Gx,Gy,Gz,Mx.My,Mz
 SAMPLES_PER_CHANNEL_IMU  = 1 
 SAMPLES_PER_CHANNEL_ECG  = 10
 BYTES_PER_SAMPLE_ECG     = 3
@@ -88,7 +88,7 @@ total_bytes_IMU          = BYTES_PER_SAMPLE_ECG*NUM_CHANNELS_ECG*SAMPLES_PER_CHA
 total_bytes_IMU          = total_samples_IMU*BYTES_PER_SAMPLE_IMU
 total_bytes              = total_bytes_IMU + total_bytes_IMU
 single_sample_ECG        = [1]*total_samples_ECG
-ECG_LOD                  = [1]
+ECG_LOD                  = 0
 raw_ADC_ECG              = [1]*total_samples_ECG
 raw_LOD_ECG              = [1]
 single_sample_IMU        = [1]*total_samples_IMU
@@ -96,7 +96,7 @@ single_sample_IMU        = [1]*total_samples_IMU
 converted_voltage_ECG    = np.array([[1]*SAMPLES_PER_CHANNEL_ECG]*NUM_CHANNELS_ECG, dtype=float) 
 raw_IMU                  = np.array([[1]*SAMPLES_PER_CHANNEL_IMU]*NUM_CHANNEL_IMU,  dtype=float) 
 multi_axis_IMU           = np.array([[1]*SAMPLES_PER_CHANNEL_ECG]*NUM_CHANNEL_IMU,  dtype=float)
-data_to_write            = [0]*(NUM_CHANNEL_IMU + NUM_CHANNELS_ECG + 1)
+data_to_write            = [0]*(NUM_CHANNEL_IMU + NUM_CHANNELS_ECG + 2)
 sampling_frequency_ECG   = 1/ECG_SAMPLING_PERIOD
 attempt_counter          = 0
 
@@ -159,7 +159,7 @@ def initialise_CSV(ver_counter, f):
     if selected_device == DEVICE_1:
         data_Header=['ECG_1', 'ECG_2', 'ECG_3','ECG_4', 'ECG_5', 'tstamp']
     else:
-        data_Header=['ECG_LOD','ECG_1', 'ECG_2','A_X', 'A_Y', 'A_Z', 'G_X', 'G_Y', 'G_Z', 'M_X', 'M_Y','M_Z','M_rH', 'tstamp']
+        data_Header=['ECG_LOD','ECG_1', 'ECG_2','A_X', 'A_Y', 'A_Z', 'G_X', 'G_Y', 'G_Z', 'M_X', 'M_Y','M_Z','tstamp']
     writer.writerow(data_Header)
     # Reset write count
     write_count = 0
@@ -303,7 +303,7 @@ def data_Processing(bluetooth_data):
         
     # Convert IMU data from 2 byte values to a single 16 bit value
     x = 0
-    for i in range(184,243,6):
+    for i in range(184,238,6):
         # Grab 2 bytes per sample
         single_sample_IMU[x] = (bluetooth_data.before[i:i+2]),(bluetooth_data.before[i+3:i+5])
         # Convert 2 bytes to raw IMU values and account for signedness
