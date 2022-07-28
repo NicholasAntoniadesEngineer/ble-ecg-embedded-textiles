@@ -12,6 +12,7 @@ Version         = "0.0.1"
 Copyright       = "Copyright 2022, KYMIRA LTD"
 """
 
+
 from re import I
 import pexpect
 import time
@@ -33,6 +34,7 @@ IMU_SCALE_FACTOR         = 2048
 SKIP_NUM                 = 10
 ADC_MAX                  = 0xF30000
 V_REF                    = 2.4
+NUM_LOD_CHANNELS         = 1
 
 MTU_VALUE          = 'mtu 250'
 STREAM_REQUEST_NEW = 'char-write-req 0x0016 0100'
@@ -46,6 +48,7 @@ DEVICE_2    = "48:23:35:00:36:3E" # 6-lead ECG device, old hardware
 DEVICE_3    = "CC:86:EC:65:E4:DC" # 3-lead, from Brain Beta v1.1, latest hardware
 DEVICE_4    = "00:3C:84:DD:2B:F6" # 3-lead, from Brain Beta v1.1, latest hardware
 DEVICE_5    = "00:3c:84:dd:2c:01" # 3-lead, from Brain Beta v1.1, latest hardware
+DEVICE_6    = "00:3c:84:DA:EA:D1" # 3-lead, from Brain Beta v1.1, latest hardware
 device_old = DEVICE_5
 
 """
@@ -85,8 +88,11 @@ total_bytes_IMU          = BYTES_PER_SAMPLE_ECG*NUM_CHANNELS_ECG*SAMPLES_PER_CHA
 total_bytes_IMU          = total_samples_IMU*BYTES_PER_SAMPLE_IMU
 total_bytes              = total_bytes_IMU + total_bytes_IMU
 single_sample_ECG        = [1]*total_samples_ECG
+ECG_LOD                  = [1]
 raw_ADC_ECG              = [1]*total_samples_ECG
+raw_LOD_ECG              = [1]
 single_sample_IMU        = [1]*total_samples_IMU
+
 converted_voltage_ECG    = np.array([[1]*SAMPLES_PER_CHANNEL_ECG]*NUM_CHANNELS_ECG, dtype=float) 
 raw_IMU                  = np.array([[1]*SAMPLES_PER_CHANNEL_IMU]*NUM_CHANNEL_IMU,  dtype=float) 
 multi_axis_IMU           = np.array([[1]*SAMPLES_PER_CHANNEL_ECG]*NUM_CHANNEL_IMU,  dtype=float)
@@ -153,7 +159,7 @@ def initialise_CSV(ver_counter, f):
     if selected_device == DEVICE_1:
         data_Header=['ECG_1', 'ECG_2', 'ECG_3','ECG_4', 'ECG_5', 'tstamp']
     else:
-        data_Header=['ECG_1', 'ECG_2','A_X', 'A_Y', 'A_Z', 'G_X', 'G_Y', 'G_Z', 'M_X', 'M_Y','M_Z','M_rH', 'tstamp']
+        data_Header=['ECG_LOD','ECG_1', 'ECG_2','A_X', 'A_Y', 'A_Z', 'G_X', 'G_Y', 'G_Z', 'M_X', 'M_Y','M_Z','M_rH', 'tstamp']
     writer.writerow(data_Header)
     # Reset write count
     write_count = 0
@@ -270,13 +276,18 @@ def data_Processing(bluetooth_data):
     Parameters:
             bluetooth_data(object): Object containing the bluetooth data to be sorted.
     '''
-    # Actual_Data = bluetooth_data.before[1:243]
-    # ECG_Data = bluetooth_data.before[1:180]
-    # IMU_Data = bluetooth_data.before[181:243]
+    # Actual_Data = bluetooth_data.before[1:246]
+    # ECG_Data = bluetooth_data.before[4:183]
+    # IMU_Data = bluetooth_data.before[184:246]
+
+    # Get lead of detection data
+    ECG_LOD = (bluetooth_data.before[1:4])
+    # Convert byte to dec
+    raw_LOD_ECG[0] = int(ECG_LOD, 16)
 
     # Convert ECG data from 3 byte values to a single 24 bit value
     x = 0
-    for i in range(1,181,9):
+    for i in range(4,183,9):
         # Grab 3 bytes per sample
         single_sample_ECG[x] = (bluetooth_data.before[i:i+2]),(bluetooth_data.before[i+3:i+5]),(bluetooth_data.before[i+6:i+8])
         # Convert sample to ADC value and add to list of converted ECG values
@@ -292,7 +303,7 @@ def data_Processing(bluetooth_data):
         
     # Convert IMU data from 2 byte values to a single 16 bit value
     x = 0
-    for i in range(181,240,6):
+    for i in range(184,243,6):
         # Grab 2 bytes per sample
         single_sample_IMU[x] = (bluetooth_data.before[i:i+2]),(bluetooth_data.before[i+3:i+5])
         # Convert 2 bytes to raw IMU values and account for signedness
@@ -353,13 +364,17 @@ def main():
             if write_count >= SKIP_NUM:
                     
                     for l in range(0,SAMPLES_PER_CHANNEL_ECG):
+                        
+                        # Add LOD Channel data
+                        data_to_write[0]= raw_LOD_ECG[0]
+                        
                         # Add ECG data to be written to the CSV file 
                         for m in range(0,NUM_CHANNELS_ECG):
-                            data_to_write[m]=converted_voltage_ECG[m,l]
+                            data_to_write[NUM_LOD_CHANNELS + m]=converted_voltage_ECG[m,l]
 
                         # Add IMU data to be written to the CSV file
                         for m in range(0,NUM_CHANNEL_IMU):
-                            data_to_write[NUM_CHANNELS_ECG + m]=multi_axis_IMU[0,m]
+                            data_to_write[NUM_CHANNELS_ECG + NUM_LOD_CHANNELS + m]=multi_axis_IMU[0,m]
 
                         # Add time stamp
                         data_to_write[12] = time_val[l]
@@ -368,6 +383,8 @@ def main():
                         
                         # This may break everything
                         # flush()
+                        
+                        print(bluetooth_data.before[1:180])
 
             else:
                 write_count = write_count + 1
