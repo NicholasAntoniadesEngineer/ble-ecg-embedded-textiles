@@ -1,0 +1,11 @@
+README.md
+setup.py
+kymira_data_in/__init__.py
+kymira_data_in/clouddb_import.py
+kymira_data_in/packet_tools.py
+kymira_data_in.egg-info/PKG-INFO
+kymira_data_in.egg-info/SOURCES.txt
+kymira_data_in.egg-info/dependency_links.txt
+kymira_data_in.egg-info/requires.txt
+kymira_data_in.egg-info/top_level.txt
+kymira_data_in.egg-info/zip-safe

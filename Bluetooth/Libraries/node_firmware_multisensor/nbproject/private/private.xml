@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/REPOS/Firmware%20Repos/node_firmware_multisensor/Firmware/sWear_9DOF/board_comms.c</file>
+            <file>file:/C:/REPOS/Firmware%20Repos/node_firmware_multisensor/Firmware/sWear_9DOF/sensor.h</file>
+            <file>file:/C:/REPOS/Firmware%20Repos/node_firmware_multisensor/Firmware/sWear_9DOF/funcs.h</file>
+            <file>file:/C:/REPOS/Firmware%20Repos/node_firmware_multisensor/Firmware/sWear_9DOF/ppg.c</file>
+            <file>file:/C:/REPOS/Firmware%20Repos/node_firmware_multisensor/Firmware/sWear_9DOF/funcs.c</file>
+            <file>file:/C:/REPOS/Firmware%20Repos/node_firmware_multisensor/Firmware/sWear_9DOF/nodemain.c</file>
+            <file>file:/C:/REPOS/Firmware%20Repos/node_firmware_multisensor/Firmware/sWear_9DOF/board_comms.h</file>
+            <file>file:/C:/REPOS/Firmware%20Repos/node_firmware_multisensor/Firmware/sWear_9DOF/SPIlib.h</file>
+            <file>file:/C:/REPOS/Firmware%20Repos/node_firmware_multisensor/Firmware/sWear_9DOF/strain_adc.c</file>
+            <file>file:/C:/REPOS/Firmware%20Repos/node_firmware_multisensor/Firmware/sWear_9DOF/bmi160bmm150.h</file>
+            <file>file:/C:/REPOS/Firmware%20Repos/node_firmware_multisensor/Firmware/sWear_9DOF/SPIlib.c</file>
+            <file>file:/C:/REPOS/Firmware%20Repos/node_firmware_multisensor/Firmware/sWear_9DOF/bmi160bmm150.c</file>
+            <file>file:/C:/REPOS/Firmware%20Repos/node_firmware_multisensor/Firmware/sWear_9DOF/I2Clib.h</file>
+            <file>file:/C:/REPOS/Firmware%20Repos/node_firmware_multisensor/Firmware/sWear_9DOF/sensor.c</file>
+        </group>
+    </open-files>
+</project-private>

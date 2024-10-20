@@ -1,0 +1,6 @@
+click
+numpy
+numpyencoder
+pandas
+pymongo
+sphinx

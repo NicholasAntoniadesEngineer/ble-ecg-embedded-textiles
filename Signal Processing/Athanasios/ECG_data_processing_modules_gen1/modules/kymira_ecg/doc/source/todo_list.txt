@@ -1,0 +1,16 @@
+TODO List as of Wed Jan 26 16:23:58 UTC 2022
+../kymira_ecg/preprocessing.py:156 TODO: HIGH, probably worth having a fixed max level decomposition here.
+../kymira_ecg/preprocessing.py:192 TODO: HIGH, Clarify detrending here (there is a separate detrending module that can do more than take out a simple linear detrending.
+../kymira_ecg/preprocessing.py:203 TODO: HIGH, Quantities FS, WINDOW_LENGTH, H_CUTOFF should be parameters to this function.
+../kymira_ecg/preprocessing.py:208 TODO: HIGH, Do this with proper indexing
+../kymira_ecg/preprocessing.py:230 TODO: HIGH, PERCENTILE should really become a parameter to this function.
+../kymira_ecg/preprocessing.py:235 TODO: HIGH, Clarify what is DISTANCE (?) and make it a parameter to this function
+../kymira_ecg/preprocessing.py:555 TODO: HIGH, Raise exception here if channels is simply empty ([]). there should be at least one channel plotted.
+../kymira_ecg/preprocessing.py:588     # TODO: MID, Need error checking here in case the Fs is not high enough for the cut offs.
+../kymira_ecg/preprocessing.py:589     # TODO: MID, Need to make the order of the filter parametrisable.
+../kymira_ecg/preprocessing.py:592     # TODO: MID, Parametrise the order of the filter.
+../kymira_ecg/preprocessing.py:595     # TODO: MID, Parametrise the Q factor.
+../kymira_ecg/preprocessing.py:602     # TODO: HIGH, Raise exception here if channels is simply empty ([]). there should be at least one channel plotted.
+../kymira_ecg/visualisation.py:14 TODO: MID, this must be incorporated to the exception hierarchy.
+../kymira_ecg/visualisation.py:38 TODO: HIGH, Raise exception here if channels is simply empty ([]). there should be at least one channel plotted.
+../kymira_ecg/visualisation.py:93 TODO: HIGH, Raise exception if the contents of channels refer a channel that does not exist
