@@ -13,7 +13,7 @@ The firmware running on the P01-ECG pod can be find in the P01-ECG-pod-firmware 
     - Type your SSID and your password.
     - Exit the tool. After a few seconds, your Pi is now connected to the wireless network you chose.
 2.  Clone repository from git.
-    - sudo git clone https://KYMIRARnD@dev.azure.com/KYMIRARnD/Garment%20Integration%20and%20Prototyping/_git/P01-ECG
+    - sudo git clone ../P01-ECG
 3.	Change file permissions
     - sudo chmod -R ugo+rw P01-ECG/
     - sudo chown -R protopi:root P01-ECG/
