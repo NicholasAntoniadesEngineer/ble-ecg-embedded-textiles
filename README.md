@@ -5,10 +5,6 @@ Using the pod from the Caterpillar Beta system to capture the ECG and IMU data a
 
 The firmware running on the P01-ECG pod can be find in the P01-ECG-pod-firmware repository
 
-# Current Raspberry PI4 login details
-- Username: protopi
-- Password: kymira 
-
 # Getting Started
 
 1.  Connect the Raspberry Pi to the local network
