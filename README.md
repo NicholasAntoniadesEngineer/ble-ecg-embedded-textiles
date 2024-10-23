@@ -1,5 +1,5 @@
 # Introduction 
-The Caterpillar textile is required to measure ECG readings from electrodes placed in specific locations within the textile. Tests need to be done to determine these locations. A testing system was needed to be built with repositionable leads to allow for tests to be run with the electrodes placed in different combinations of locations. The system needed to be robust enough to handle repetitive stretching and allow for data to be captured during each test for analysis. 
+A garment was required to measure ECG readings from electrodes placed in specific locations within the textile. Tests need to be done to determine these locations. A testing system was needed to be built with repositionable leads to allow for tests to be run with the electrodes placed in different combinations of locations. The system needed to be robust enough to handle repetitive stretching and allow for data to be captured during each test for analysis. 
 
 Using the pod from the Caterpillar Beta system to capture the ECG and IMU data a Raspberrypi 4B was used to capture the data being sent over Bluetooth and store it.
 
