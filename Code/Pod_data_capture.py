@@ -7,9 +7,6 @@ Author          = "Nicholas Antoniades"
 Contact         = "n.antoniades@kymira.co.uk"
 Start Date      = "03/01/2022"
 Last Modified   = "23/05/2022"
-Status          = "Prototype"
-Version         = "0.0.1"
-Copyright       = "Copyright 2022, KYMIRA LTD"
 """
 
 from re import I
