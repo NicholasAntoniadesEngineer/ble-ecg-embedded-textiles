@@ -1,119 +1,73 @@
 #!/usr/bin/env python3
-import spidev
-import RPi.GPIO as GPIO
+from lib.ads1241 import ADS1241
+from lib.hardware_interfaces import SPIInterface, GPIOInterface
 import time
 import datetime
 import csv
+import sys
 
+def initialize_hardware():
+    """Initialize and configure hardware interfaces."""
+    spi = SPIInterface(bus=0, device=0, max_speed_hz=32000)
+    gpio = GPIOInterface(mode='BCM')
+    
+    device_config = {
+        'cs_pin': 'cs2',
+        'gpio_pins': {
+            'cs2': 23
+        }
+    }
+    
+    ads = ADS1241(spi, gpio, device_config)
+    print('Initializing ADS1241')
+    ads.program_adc()
+    
+    return ads
 
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-@brief Initialises ADS1241 -
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+def collect_data(ads):
+    """Collect and process ADC data."""
+    with open('Strain_gauge_data.csv', 'a') as f:
+        writer = csv.writer(f)
+        
+        while True:
+            try:
+                # Request Data for P_AIN0
+                ads.input_select(ADS1241.P_AIN0)
+                adc_data = ads.fetch_adc_data()
+                p_ain0_raw = ((adc_data[0] & 0xFF) << 16) | \
+                            ((adc_data[1] & 0xFF) << 8) | \
+                            (adc_data[2] & 0xFF)
+                
+                timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%H:%M:%S:%f')
+                print(p_ain0_raw, 0)
+                
+                writer.writerow([timestamp, p_ain0_raw])
+                time.sleep(0.05)
+                
+            except KeyboardInterrupt:
+                print('\nData collection interrupted')
+                break
+            except Exception as e:
+                print(f'\nError during data collection: {str(e)}')
+                break
 
-P_Ain0        = 0b00000111
-P_Ain1        = 0b00010111
-Blank         = 0b00000000
-Read_Address  = 0b00000001
-Setup_Reg     = 0b01010000
-MUX_Ctrl_Reg  = 0b01010001
-Alg_Ctrl_Reg  = 0b01010010
+def main():
+    """Main function to run the ADC data capture."""
+    try:
+        # Initialize hardware
+        ads = initialize_hardware()
+        
+        print('Reading data packets')
+        collect_data(ads)
+        
+    except Exception as e:
+        print(f"Error in main: {str(e)}")
+        sys.exit(1)
 
-
-def ADC_Programme():
-       # Set CS bit low for transmission
-       GPIO.output(CSPIN,0) 
-       #WREG = 0b0101
-       # Programme Setup Register
-       # Gain = 1
-       spi.xfer([Setup_Reg,Blank,Blank])   
-       time.sleep(0.1)
-       # Set CS bit high for end of transmission
-       GPIO.output(CSPIN,1)
-
-def Input_Select(Input_Sel):
-       # Set CS bit low for transmission
-       GPIO.output(CSPIN,0) 
-       spi.xfer([MUX_Ctrl_Reg,Blank,Input_Sel,Blank])   
-       time.sleep(0.06)
-       # Set CS bit high for end of transmission
-       GPIO.output(CSPIN,1)
-
-def Fetch_ADC_data():
-       # Set CS bit low for transmission
-       GPIO.output(CSPIN,0) 
-       #  spi.xfer([0b00011110,0b11101010])  
-       # Requesting new data
-       spi.xfer([Read_Address])
-       ADC_data = spi.xfer([Blank,Blank,Blank])
-       #data1 = spi.xfer([0x0,0x0, Byte1,Byte2])
-       # Set CS bit high for end of transmission
-       GPIO.output(CSPIN,1)
-       return ADC_data
-
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-@brief Initialises Rpi SPI interface
-@note  CS pin for spidev library has issues and oscillates at the end of transmission
-       as a solution a GPIO is set as a manual cs pin for each device
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-# Initialise to GPIO mode
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-# Set GPIO23 to be CS1 pin
-CS2 = 23 
-# Set GPIO24 to be CS2 pin
-CS1 = 24          
-GPIO.setup(CS1, GPIO.OUT)
-GPIO.setup(CS2, GPIO.OUT)
-# Set CS bits high for no transmission  
-GPIO.output(CS1,1)   
-GPIO.output(CS2,1)    
-CSPIN = int(CS2)
-
-# Enable SPI
-spi = spidev.SpiDev()       
-# Open a connection to the devices
-spi.open(0, 0)         
-# Set SPI speed
-spi.max_speed_hz = 32000    
-
-# Programme ADC
-ADC_Programme() 
-
-
-
-while True:
-
-
-       # open the file in the write mode
-
-       while True:
-              f = open('Strain_gauage_data.csv', 'a')
-              # create the csv writer
-              writer = csv.writer(f)
-              # Request Data for P_Ain0
-              Input_Select(P_Ain0) 
-              P_Ain0_data = Fetch_ADC_data() 
-              P_Ain0_raw = ((P_Ain0_data[0] & 0xFF) << 16) | ((P_Ain0_data[1] & 0xFF) << 8) | (P_Ain0_data[2] & 0xFF)
-
-              
-              # # Request Data for P_Ain1
-              # Input_Select(P_Ain1) 
-              # P_Ain1_data = Fetch_ADC_data() 
-              # P_Ain1_raw = ((P_Ain1_data[0] & 0xFF) << 16) | ((P_Ain1_data[1] & 0xFF) << 8) | (P_Ain1_data[2] & 0xFF)
-              
-              # time.sleep(0.5)
-              
-              #print(P_Ain0_raw, P_Ain1_raw)
-              timeStamp = datetime.datetime.fromtimestamp(time.time()).strftime('%H:%M:%S:%f')
-              print(P_Ain0_raw, 0)
-
-              # write a row to the csv file
-              data=[timeStamp,P_Ain0_raw]
-              writer.writerow(data)
-              
-              time.sleep(0.05)
-
-       # close the file
-       f.close()
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('\nInterrupted')
+        sys.exit(0)
 
