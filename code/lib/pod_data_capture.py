@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
 """
-A Python module that connects to a Brain/Pod created by the KYMIRA R@D and intended for the Caterpillar garment.
+A Python module that connects to a BLE ECG device intended for the ECG IMU Garment Prototype.
 Connects to selected device and writes all data to a single .csv file.
 
 Author: Nicholas Antoniades
-Contact: n.antoniades@kymira.co.uk
 Start Date: 03/01/2022
 Last Modified: 23/05/2022
 """

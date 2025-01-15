@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-BLE ECG 3-Lead Data Collection Script
+BLE ECG Data Collection Script
 
-This script interfaces with a BLE ECG device to collect 3-lead ECG data.
+This script interfaces with a BLE ECG device to collect ECG data.
 It handles device connection, data collection, and CSV file management.
 
 Author: Nicholas Antoniades
@@ -15,25 +15,44 @@ from lib.data_processor import DataProcessor
 from lib.file_manager import FileManager
 from lib.constants import (
     DEVICE_3,
+    DEVICE_ADDRESSES,
     ECG_SAMPLING_PERIOD,
     NUM_CHANNELS_3LEAD,
+    NUM_CHANNELS_6LEAD,
     SAMPLES_PER_CHANNEL_ECG
 )
 
-def initialize_components():
+def get_device_config(mode):
+    """Configure device settings based on the selected mode."""
+    if mode == '3-lead':
+        device_id = DEVICE_3
+        num_channels = NUM_CHANNELS_3LEAD
+    elif mode == '6-lead':
+        device_id = "DEVICE_6"  # Assuming DEVICE_6 is defined in constants
+        num_channels = NUM_CHANNELS_6LEAD
+    else:
+        raise ValueError("Invalid mode selected. Choose '3-lead' or '6-lead'.")
+    
+    device_address = DEVICE_ADDRESSES[device_id]
+    return device_address, num_channels, device_id
+
+def initialize_components(device_address, num_channels, device_id):
     """Initialize all required components."""
-    file_manager = FileManager('Test', 'Brain-Beta-v1-1', DEVICE_3)
-    data_processor = DataProcessor(NUM_CHANNELS_3LEAD)
-    ble_connection = BLEConnection(DEVICE_3)
+    file_manager = FileManager('Test', 'Brain-Beta-v1-1', device_id)
+    data_processor = DataProcessor(num_channels)
+    ble_connection = BLEConnection(device_address)
     
     time_stamp = datetime.datetime.now()
     delta_time = datetime.timedelta(seconds=1/ECG_SAMPLING_PERIOD)
     
     return file_manager, data_processor, ble_connection, time_stamp, delta_time
 
-def main():
+def main(mode):
     """Main execution function."""
-    file_manager, data_processor, ble_connection, time_stamp, delta_time = initialize_components()
+    device_address, num_channels, device_id = get_device_config(mode)
+    file_manager, data_processor, ble_connection, time_stamp, delta_time = initialize_components(
+        device_address, num_channels, device_id
+    )
     
     try:
         # Connect to device
@@ -55,7 +74,8 @@ def main():
 
 if __name__ == "__main__":
     try:
-        main()
+        mode = sys.argv[1] if len(sys.argv) > 1 else '3-lead'
+        main(mode)
     except KeyboardInterrupt:
         print('\nInterrupted')
         sys.exit(0)
