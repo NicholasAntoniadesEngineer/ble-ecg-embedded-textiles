@@ -4,6 +4,21 @@ A garment was required to measure ECG readings from electrodes placed in specifi
 
 The project involves integrating with an existing BLE ECG device from another product in research to capture the ECG and IMU data. A Raspberry Pi 4B was used to capture the data being sent over Bluetooth to be stored and analyzed.
 
+## Project Goals
+
+- Determine optimal electrode placement within the garment for accurate ECG readings.
+- Develop a robust testing system that can withstand repetitive stretching.
+- Integrate with existing BLE ECG devices for data capture.
+- Ensure reliable data capture and analysis during each test.
+
+## Hardware Components
+
+- Raspberry Pi 4B (main controller)
+- BLE ECG device
+- Repositionable leads for electrode placement
+- Textile-based electrodes
+- Bluetooth Low Energy (BLE) communication module
+
 ## Getting Started
 
 1. **Connect the Raspberry Pi to the local network**
